@@ -1,0 +1,32 @@
+.PrologAgent {
+    margin: 0;
+    width: 100%;
+    height: 300px;
+    color: white;
+    background-color: black;
+}
+
+
+.PrologAgent .Question{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.PrologAgent .Question h1{
+    margin-top: 20px;
+}
+
+.PrologAgent .Question p{
+    font-size: 1.5em;
+}
+
+.Answers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    background-color: orange;
+}
