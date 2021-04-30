@@ -35,8 +35,10 @@ const HomePage = () => {
     setQuestion(question);
     //ask the server
     //get reply from the server
-    setUserInput(prompt(question));
-    return userInput;
+    let answer;
+    answer = prompt(question);
+    setUserInput(answer);
+    return answer;
   }
 
   const getAnswer = () => {
