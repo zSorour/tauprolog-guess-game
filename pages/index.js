@@ -6,22 +6,19 @@ import plSession from '../prolog/prolog';
 
 import classes from '../styles/HomePage.module.css';
 
-var ask = (question) => {
-  console.log(`The question is ${question}`);
-}
 
 const HomePage = () => {
 
-  const [question, setQuestion] = useState('Dummy question is it true?');
+  const [question, setQuestion] = useState('Dummy Question?');
   const [userInput, setUserInput] = useState();
 
   useEffect(() => {
-    plSession.consult('/de7k.pl', {
+    plSession.consult('kb.pl', {
       success: () => {
         console.log("Consulted de7k.pl successfully");
-        plSession.query('init.', {
+        plSession.query(`start.`, {
           success: () => {
-            getAnswer();
+           getAnswer();
           },
           error: (error) => {
             console.log(error);
@@ -33,6 +30,14 @@ const HomePage = () => {
       }
     });
   }, []);
+
+  global.ask = (question) => {
+    setQuestion(question);
+    //ask the server
+    //get reply from the server
+    setUserInput(prompt(question));
+    return userInput;
+  }
 
   const getAnswer = () => {
     plSession.answer({

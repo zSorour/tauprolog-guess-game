@@ -1,7 +1,8 @@
-const tauProlog = require('tau-prolog');
+const pl = require('tau-prolog');
+const loader = require('tau-prolog/modules/js');
 
-let session = tauProlog.create();
+loader(pl);
+
+let session = pl.create();
 
 export default session;
-
-

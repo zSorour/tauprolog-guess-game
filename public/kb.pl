@@ -1,11 +1,11 @@
-/* prolog tutorial 2.17 Animal identification game.
+/* start with ?- start.     */
 
-    start with ?- go.     */
+/*Import JS Tau-Prolog library to invoke JS functions later*/
 :- use_module(library(js)).
 
-start :- guess(Animal), undo.
+start :- guess(Animal), ask(Animal), undo.
 
-/* hypotheses to be tested */
+/* guesses to be tested */
 guess(cheetah)   :- cheetah, !.
 guess(tiger)     :- tiger, !.
 guess(giraffe)   :- giraffe, !.
@@ -59,33 +59,26 @@ ungulate :- mammal,
 
 /* How to verify something */
 /*
-Instead of ask(S) if there is no yes or no predicates in the KB,
-we return a result as false.
-We check on client side, if it is false, we ask the server for answer.
-We then assertz the answer whether it is a yes or no.
+REWRITE COMMENT HERE
 */
-verify(S) :-
-   (yes(S) -> true ;
-    (no(S) -> fail ;
-    prop(ask, Ask), apply(Ask, [S], _))).
+verify(Feature) :-
+   (yes(Feature) -> true ;
+    (no(Feature) -> fail ;
+    ask(Feature))).
 
 
-/* PROBABLY REFACTORED!!! how to ask questions */
-/*ask(Question) :-
-    write('Does the animal have the following attribute: '),
-    write(Question),
-    write('? '),
-    read(Response),
-    nl,
+/* How to ask questions */
+
+/*Invoke JS function to create a prompt and get answer from the user*/
+ask(Question) :-
+    prop(ask, Ask), apply(Ask, [Question], Response),
     ( (Response == yes ; Response == y)
       ->
-       assert(yes(Question)) ;
-       assert(no(Question)), fail).*/
+       assertz(yes(Question)) ;
+       assertz(no(Question)), fail).
 
 :- dynamic(yes/1).
 :- dynamic(no/1).
-
-
 
 /* undo all yes/no assertions */
 undo :- retract(yes(_)),fail.
