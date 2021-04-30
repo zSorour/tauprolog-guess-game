@@ -6,21 +6,51 @@ import plSession from '../prolog/prolog';
 
 import classes from '../styles/HomePage.module.css';
 
+var ask = (question) => {
+  console.log(`The question is ${question}`);
+}
+
 const HomePage = () => {
 
   const [question, setQuestion] = useState('Dummy question is it true?');
   const [userInput, setUserInput] = useState();
 
   useEffect(() => {
-    plSession.consult('/kb.pl', {
+    plSession.consult('/de7k.pl', {
       success: () => {
-        console.log("Consulted kb.pl successfully");
+        console.log("Consulted de7k.pl successfully");
+        plSession.query('init.', {
+          success: () => {
+            getAnswer();
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
       },
       error: (err) => {
         console.log(err);
       }
     });
   }, []);
+
+  const getAnswer = () => {
+    plSession.answer({
+      success: (result) => {
+        console.log(result); //add to list of answer
+        getAnswer();
+      },
+      fail: () => {
+        console.log('No more answers');
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      limit: () => {
+        console.log('limit exceeded');
+      }
+    });
+  }
 
   const inputChangeHandler = (e) => {
     setUserInput(e.target.value);
