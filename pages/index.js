@@ -60,8 +60,7 @@ const HomePage = () => {
   }
 
   const inputChangeHandler = (e) => {
-    setUserInput(e.target.vasdrftVWESFUNVOISADYNRFTIUVASNYITEAalue);
-    //Set user input
+    setUserInput(e.target.value);
   }
 
   const nextButtonClickHandler = () => {
