@@ -1,7 +1,10 @@
 const pl = require('tau-prolog');
-const loader = require('tau-prolog/modules/js');
+const jsModuleLoader = require('tau-prolog/modules/js');
+const promisesModuleLoader = require('tau-prolog/modules/promises');
 
-loader(pl);
+
+jsModuleLoader(pl);
+promisesModuleLoader(pl);
 
 let session = pl.create();
 
