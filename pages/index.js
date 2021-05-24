@@ -13,7 +13,7 @@ const HomePage = () => {
     await plSession.promiseConsult('kb.pl');
     await plSession.promiseQuery(`start.`);
     for await (let answer of plSession.promiseAnswers()) {
-      console.log(plSession.format_answer(answer));yes
+      console.log(plSession.format_answer(answer));
     }
 
     // plSession.consult('kb.pl', {
