@@ -12,26 +12,7 @@ const HomePage = () => {
 
     await plSession.promiseConsult('kb.pl');
     await plSession.promiseQuery(`start.`);
-    for await (let answer of plSession.promiseAnswers()) {
-      console.log(plSession.format_answer(answer));
-    }
-
-    // plSession.consult('kb.pl', {
-    //   success: () => {
-    //     console.log("Consulted de7k.pl successfully");
-    //     plSession.query(`start.`, {
-    //       success: () => {
-    //        getAnswer();
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //       }
-    //     });
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //   }
-    // });
+    await plSession.promiseAnswer();
   }, []);
 
   global.ask = (question) => {
@@ -43,24 +24,6 @@ const HomePage = () => {
     setUserInput(answer);
     return answer;
   }
-
-  // const getAnswer = () => {
-  //   plSession.answer({
-  //     success: (result) => {
-  //       console.log(result); //add to list of answer
-  //       getAnswer();
-  //     },
-  //     fail: () => {
-  //       console.log('No more answers');
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     },
-  //     limit: () => {
-  //       console.log('limit exceeded');
-  //     }
-  //   });
-  // }
 
   const inputChangeHandler = (e) => {
     setUserInput(e.target.value);
