@@ -3,58 +3,101 @@
 /*Import JS Tau-Prolog library to invoke JS functions later*/
 :- use_module(library(js)).
 
-start :- guess(Animal), ask(Animal), undo.
+start :- guess(Person), ask(Person), undo.
 
 /* guesses to be tested */
-guess(cheetah)   :- cheetah, !.
-guess(tiger)     :- tiger, !.
-guess(giraffe)   :- giraffe, !.
-guess(zebra)     :- zebra, !.
-guess(ostrich)   :- ostrich, !.
-guess(penguin)   :- penguin, !.
-guess(albatross) :- albatross, !.
-guess(unknown).             /* no diagnosis */
+guess(mohamed_salah)   :- mohamed_salah, !.
+guess(halle_berry)     :- halle_berry, !.
+guess(messi) :- messi, !.
+guess(angelina_jolie)     :- angelina_jolie, !.
+guess(barack_obama)   :- barack_obama, !.
+guess(dua_lipa)   :- dua_lipa, !.
+guess(donald_trump) :- donald_trump, !.
+guess(jennifer_aniston) :- jennifer_aniston, !.
+guess(leonardo_dicaprio) :- leonardo_dicaprio, !.
+guess(ed_sheeran) :- ed_sheeran, !.
+guess(will_smith) :- will_smith, !.
+guess(ronaldo) :- ronaldo, !.
+guess(unknown).
 
-/* animal identification rules */
-cheetah :- mammal,
-           carnivore,
-           verify(has_tawny_color),
-           verify(has_dark_spots).
-tiger :- mammal,
-         carnivore,
-         verify(has_tawny_color),
-         verify(has_black_stripes).
-giraffe :- ungulate,
-           verify(has_long_neck),
-           verify(has_long_legs).
-zebra :- ungulate,
-         verify(has_black_stripes).
+/* Person identification rules */
+mohamed_salah :- verify(male),
+           verify(footballer),
+           verify(liverpool_player),
+           verify(egyptian).
 
-ostrich :- bird,
-           verify(does_not_fly),
-           verify(has_long_neck).
-penguin :- bird,
-           verify(does_not_fly),
-           verify(swims),
-           verify(is_black_and_white).
-albatross :- bird,
-             verify(appears_in_story_Ancient_Mariner),
-             verify(flys_well).
+halle_berry :- female,
+         verify(actor),
+         verify(dark_skin),
+         verify(acted_in_catwoman).
+
+messi :- verify(male),
+         verify(footballer),
+         verify(barcelona_player),
+         verify(argentine).
+
+angelina_jolie :- female,
+                verify(actor),
+                verify(acted_in_maleficent).
+
+barack_obama :- verify(male),
+            verify(president),
+            verify(american),
+            verify(presidency_2009-2017).
+
+dua_lipa :- female,
+          verify(singer),
+          verify(british),
+          verify(sing_in_champions_leage_final_2018).
+
+donald_trump :- verify(male),
+            verify(president),
+            verify(american),
+            verify(presidency_2017-2021).
+
+jennifer_aniston :- female,
+                verify(actor),
+                verify(acted_in_friends),
+                verify(ex-spouse_of_brad_pitt).
+
+leonardo_dicaprio :- verify(male),
+              verify(actor),
+              verify(american),
+              verify(acted_in_the_wolf_of_wall_street),
+              verify(oscar_2016).
+
+ed_sheeran :- verify(male),
+            verify(singer),
+            verify(british),
+            verify(sing_in_shape_of_you).
+
+will_smith :- verify(male),
+            verify(actor),
+            verify(american),
+            verify(acted_in_the_pursuit_of_happiness).
+
+ronaldo :- verify(male),
+           verify(footballer),
+           verify(juventus_player),
+           verify(portuguese).
+
+/* Facts about some features */
+profession(footballer).
+profession(actor).
+profession(singer).
+profession(president).
+
+nationality(egyptian).
+nationality(american).
+nationality(british).
+nationality(portuguese).
+nationality(argentine).
+
 
 /* classification rules */
-mammal    :- verify(has_hair), !.
-mammal    :- verify(gives_milk).
-bird      :- verify(has_feathers), !.
-bird      :- verify(flys),
-             verify(lays_eggs).
-carnivore :- verify(eats_meat), !.
-carnivore :- verify(has_pointed_teeth),
-             verify(has_claws),
-             verify(has_forward_eyes).
-ungulate :- mammal,
-            verify(has_hooves), !.
-ungulate :- mammal,
-            verify(chews_cud).
+female:- \+ verify(male).
+no(X):- yes(Y), profession(X), profession(Y).
+no(X):- yes(Y), nationality(X), nationality(Y).
 
 
 /* How to verify something */
