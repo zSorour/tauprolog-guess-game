@@ -1,54 +1,36 @@
-.PrologAgent {
-    margin: 0;
-    width: 100%;
-    height: 300px;
-    color: white;
-    background-color: black;
+.Conversation {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: 2em;
+  font-weight: bold;
+  padding: 50px;
 }
 
-
-.PrologAgent .Question{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
+.Conversation_Body {
+    background-color: rgb(15, 15, 15);
+    border: 5px solid orangered;
+    border-radius: 50px;
+    padding: 70px;
 }
 
-.PrologAgent .Question h1{
-    margin-top: 20px;
+.Question {
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 20px;
+  background-color: rgb(226, 60, 0);
+  border-radius: 25px;
 }
-
-.PrologAgent .Question p{
-    font-size: 1.5em;
-}
-
-.Answers{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 300px;
-    background-color: orange;
-}
-
-.Answers input {
-    background-color: black;
-    color: white;
-    border: 0;
-    height: 25px;
-    margin-right: 10px;
-}
-
-.Answers button{
-    background-color: black;
-    border: 0;
-    color: white;
-    height: 25px;
-    width: 70px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.Answers button:hover{
-    cursor: pointer;
+.Answer {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  margin-left: auto;
+  padding: 20px;
+  background-color: rgb(179, 59, 16);
+  border-radius: 25px;
 }

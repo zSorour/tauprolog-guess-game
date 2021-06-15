@@ -108,23 +108,21 @@ verify(Feature) :-
     ask(Feature))).
 
 
-consoleLog(Value) :- prop(printtt, Printtt), apply(Printtt, [Value], _).
-getToken :- prop(getToken, GetToken), apply(GetToken, [_], _).
+setQA(Question, Answer) :- prop(setQuestionAnswer, SetQuestionAnswer), apply(SetQuestionAnswer, [Question, Answer], _).
+getToken :- prop(getToken, GetToken), apply(GetToken, [_], Token), Token.
 /* How to ask questions */
 
 /*Invoke JS function to create a prompt and get answer from the user*/
 ask(Question) :-
-    /*prop(ask, Ask), apply(Ask, [Question], Response),*/
     atom_concat('http://localhost:8080/ask?q=', Question, URL),
-    atom_concat('BEARER ', getToken, AuthorizationToken),
-    ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]), consoleLog(Question), consoleLog(RESULT),
+    prop(getToken, GetToken), apply(GetToken, [Question], Token), atom_concat('BEARER ', Token, AuthorizationToken),
+    ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]), setQA(Question, RESULT),
     ((RESULT == yes)
       ->
        assertz(yes(Question)) ;
        assertz(no(Question)), fail).
 
 :- dynamic(yes/1).
-:- dynamic(token/1).
 :- dynamic(no/1).
 
 /* undo all yes/no assertions */

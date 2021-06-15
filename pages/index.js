@@ -6,8 +6,7 @@ import plSession from '../prolog/prolog';
 import classes from '../styles/HomePage.module.css';
 
 const HomePage = () => {
-  const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState([]);
+  const [qa, setQA] = useState([]);
   const [accessToken, setAccessToken] = useState('');
 
   useEffect(async () => {
@@ -16,58 +15,38 @@ const HomePage = () => {
       connectionID: uuid()
     })
       .then(async (response) => {
-        let accessToken = response.data.accessToken;
-        let modifiedToken = accessToken.replace(/\./g, "");
-        setAccessToken(modifiedToken);
-
+        setAccessToken(response.data.accessToken);
         await plSession.promiseConsult('kb.pl');
-        await plSession.promiseQuery(`assertz(token(${modifiedToken})).`);
-        await plSession.promiseAnswer();
         await plSession.promiseQuery('start.');
         await plSession.promiseAnswer();
       });
   }, []);
 
-  //Define global function so it can be called from the kb.pl file using tau-prolog
-
-  const fetchAnswer = async (question) => {
-    if (question === 'unknown') {
-      return;
-    }
-    console.log(question);
-    //ask the server
-    const response = await axios.get(`http://localhost:8080/ask?q=${question}`, {
-      headers: {
-        Authorization: `BEARER ${accessToken}`
-      }
-    });
-    return response.data.answer;
-  }
-
-  global.ask = async function (question) {
-    const answer = await fetchAnswer(question);
-    console.log(answer);
-    return answer;
-  }
-
-  global.printtt = function (value) {
-    console.log(value);
-  }
-
+  //Define global functions so it can be called from the kb.pl file using tau-prolog
   global.getToken = function () {
     return accessToken;
   }
 
+  global.setQuestionAnswer = function (question, answer) {
+    question = question.split('_').join(' ');
+    setQA(qa => [...qa, { question: question, answer: answer }]);
+  }
+
   return (
     <div>
-      <div className={classes.PrologAgent}>
-        <div className={classes.Question}>
-          <h1>Answer the following question:</h1>
-          <p>Some random question</p>
-        </div>
-      </div>
-      <div className={classes.Answers}>
-        <button>Next</button>
+      <div className={classes.Conversation}>
+        <h1>Interaction between Client and Server</h1>
+        <div className={classes.Conversation_Body}>
+          {qa.map((item, index) => (
+            <div key={item.question + item.answer} className={classes.Message}>
+              <p className={classes.Question}>
+                Client: {qa[index + 1] ? `does the character have the following feature: "${item.question}"?` : `Is the character "${item.question}"?`}
+              </p>
+              <p className={classes.Answer}>
+                Server: {item.answer}
+              </p>
+            </div>
+          ))}</div>
       </div>
     </div>
   );
