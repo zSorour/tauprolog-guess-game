@@ -109,15 +109,15 @@ verify(Feature) :-
 
 
 consoleLog(Value) :- prop(printtt, Printtt), apply(Printtt, [Value], _).
-
+getToken :- prop(getToken, GetToken), apply(GetToken, [_], _).
 /* How to ask questions */
 
 /*Invoke JS function to create a prompt and get answer from the user*/
 ask(Question) :-
     /*prop(ask, Ask), apply(Ask, [Question], Response),*/
     atom_concat('http://localhost:8080/ask?q=', Question, URL),
-    atom_concat('BEARER ', '123', AuthorizationToken),
-    ajax(get, URL, RESULT, []), consoleLog(Question), consoleLog(RESULT),
+    atom_concat('BEARER ', getToken, AuthorizationToken),
+    ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]), consoleLog(Question), consoleLog(RESULT),
     ((RESULT == yes)
       ->
        assertz(yes(Question)) ;

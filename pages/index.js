@@ -16,11 +16,13 @@ const HomePage = () => {
       connectionID: uuid()
     })
       .then(async (response) => {
-        setAccessToken(response.data.accessToken);
+        let accessToken = response.data.accessToken;
+        let modifiedToken = accessToken.replace(/\./g, "");
+        setAccessToken(modifiedToken);
 
         await plSession.promiseConsult('kb.pl');
-        // await plSession.promiseQuery(`assertz(token(${response.data.accessToken})).`);
-        // await plSession.promiseAnswer();
+        await plSession.promiseQuery(`assertz(token(${modifiedToken})).`);
+        await plSession.promiseAnswer();
         await plSession.promiseQuery('start.');
         await plSession.promiseAnswer();
       });
@@ -50,6 +52,10 @@ const HomePage = () => {
 
   global.printtt = function (value) {
     console.log(value);
+  }
+
+  global.getToken = function () {
+    return accessToken;
   }
 
   return (
