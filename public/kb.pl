@@ -98,10 +98,7 @@ no(X):- yes(Y), profession(X), profession(Y).
 no(X):- yes(Y), nationality(X), nationality(Y).
 
 
-/* How to verify something */
-/*
-REWRITE COMMENT HERE
-*/
+/* Verify feature */
 verify(Feature) :-
    (yes(Feature) -> true ;
     (no(Feature) -> fail ;
@@ -112,11 +109,16 @@ setQA(Question, Answer) :- prop(setQuestionAnswer, SetQuestionAnswer), apply(Set
 getToken :- prop(getToken, GetToken), apply(GetToken, [_], Token), Token.
 /* How to ask questions */
 
-/*Invoke JS function to create a prompt and get answer from the user*/
+/*
+Ask the server whether this feature exists in the target character or not,
+Read the response and assert accordingly
+*/
 ask(Question) :-
     atom_concat('http://localhost:8080/ask?q=', Question, URL),
-    prop(getToken, GetToken), apply(GetToken, [Question], Token), atom_concat('BEARER ', Token, AuthorizationToken),
-    ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]), setQA(Question, RESULT),
+    prop(getToken, GetToken), apply(GetToken, [Question], Token),
+    atom_concat('BEARER ', Token, AuthorizationToken),
+    ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]),
+    setQA(Question, RESULT),
     ((RESULT == yes)
       ->
        assertz(yes(Question)) ;
