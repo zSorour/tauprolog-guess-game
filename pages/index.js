@@ -1,36 +1,55 @@
 import { useEffect, useState } from 'react';
+import { v4 as uuid } from 'uuid';
+import axios from 'axios';
 import plSession from '../prolog/prolog';
 
 import classes from '../styles/HomePage.module.css';
 
 const HomePage = () => {
-
-  const [question, setQuestion] = useState('Dummy Question?');
-  const [userInput, setUserInput] = useState();
+  const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
+  const [accessToken, setAccessToken] = useState('');
 
   useEffect(async () => {
+    //Connect to server to get token, similar to starting a session:
+    axios.post('http://localhost:8080/auth', {
+      connectionID: uuid()
+    })
+      .then(async (response) => {
+        setAccessToken(response.data.accessToken);
 
-    await plSession.promiseConsult('kb.pl');
-    await plSession.promiseQuery(`start.`);
-    await plSession.promiseAnswer();
+        await plSession.promiseConsult('kb.pl');
+        // await plSession.promiseQuery(`assertz(token(${response.data.accessToken})).`);
+        // await plSession.promiseAnswer();
+        await plSession.promiseQuery('start.');
+        await plSession.promiseAnswer();
+      });
   }, []);
 
-  global.ask = (question) => {
-    setQuestion(question);
+  //Define global function so it can be called from the kb.pl file using tau-prolog
+
+  const fetchAnswer = async (question) => {
+    if (question === 'unknown') {
+      return;
+    }
+    console.log(question);
     //ask the server
-    //get reply from the server
-    let answer;
-    answer = prompt(question);
-    setUserInput(answer);
+    const response = await axios.get(`http://localhost:8080/ask?q=${question}`, {
+      headers: {
+        Authorization: `BEARER ${accessToken}`
+      }
+    });
+    return response.data.answer;
+  }
+
+  global.ask = async function (question) {
+    const answer = await fetchAnswer(question);
+    console.log(answer);
     return answer;
   }
 
-  const inputChangeHandler = (e) => {
-    setUserInput(e.target.value);
-  }
-
-  const nextButtonClickHandler = () => {
-    //tell prolog the answer stored in userInput
+  global.printtt = function (value) {
+    console.log(value);
   }
 
   return (
@@ -38,15 +57,14 @@ const HomePage = () => {
       <div className={classes.PrologAgent}>
         <div className={classes.Question}>
           <h1>Answer the following question:</h1>
-          <p>{question}</p>
+          <p>Some random question</p>
         </div>
       </div>
       <div className={classes.Answers}>
-        <input type="text" value={userInput} onChange={inputChangeHandler} />
-        <button onClick={nextButtonClickHandler}>Next</button>
+        <button>Next</button>
       </div>
     </div>
-  )
+  );
 }
 
 export default HomePage;

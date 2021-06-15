@@ -1,5 +1,3 @@
-/* start with ?- start.     */
-
 /*Import JS Tau-Prolog library to invoke JS functions later*/
 :- use_module(library(js)).
 
@@ -43,22 +41,22 @@ angelina_jolie :- female,
 barack_obama :- verify(male),
             verify(president),
             verify(american),
-            verify(presidency_2009-2017).
+            verify(presidency_2009_2017).
 
 dua_lipa :- female,
           verify(singer),
           verify(british),
-          verify(sing_in_champions_leage_final_2018).
+          verify(sing_in_champions_league_final_2018).
 
 donald_trump :- verify(male),
             verify(president),
             verify(american),
-            verify(presidency_2017-2021).
+            verify(presidency_2017_2021).
 
 jennifer_aniston :- female,
                 verify(actor),
                 verify(acted_in_friends),
-                verify(ex-spouse_of_brad_pitt).
+                verify(ex_spouse_of_brad_pitt).
 
 leonardo_dicaprio :- verify(male),
               verify(actor),
@@ -79,7 +77,7 @@ will_smith :- verify(male),
 ronaldo :- verify(male),
            verify(footballer),
            verify(juventus_player),
-           verify(portuguese).
+           verify(portuguese).           
 
 /* Facts about some features */
 profession(footballer).
@@ -110,17 +108,23 @@ verify(Feature) :-
     ask(Feature))).
 
 
+consoleLog(Value) :- prop(printtt, Printtt), apply(Printtt, [Value], _).
+
 /* How to ask questions */
 
 /*Invoke JS function to create a prompt and get answer from the user*/
 ask(Question) :-
-    prop(ask, Ask), apply(Ask, [Question], Response),
-    ( (Response == yes ; Response == y)
+    /*prop(ask, Ask), apply(Ask, [Question], Response),*/
+    atom_concat('http://localhost:8080/ask?q=', Question, URL),
+    atom_concat('BEARER ', '123', AuthorizationToken),
+    ajax(get, URL, RESULT, []), consoleLog(Question), consoleLog(RESULT),
+    ((RESULT == yes)
       ->
        assertz(yes(Question)) ;
        assertz(no(Question)), fail).
 
 :- dynamic(yes/1).
+:- dynamic(token/1).
 :- dynamic(no/1).
 
 /* undo all yes/no assertions */
