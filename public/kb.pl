@@ -5,9 +5,11 @@
 start :- guess(Person), ask(Person), undo.
 
 /* guesses to be tested */
-/*Once the start clause is queried, the guess(Person) clause gets queried and Prolog
+/*
+Once the start clause is queried, the guess(Person) clause gets queried and Prolog
 internally creates a search tree structure that is traversed in a DFS fashion until it unifies the Person variable
-with the match character*/
+with the match character
+*/
 
 /*The cut operator '!' prevents backtracking after finding a match*/
 guess(mohamed_salah)   :- mohamed_salah, !.
