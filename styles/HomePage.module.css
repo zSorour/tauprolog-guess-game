@@ -1,32 +1,87 @@
-.PrologAgent {
-    margin: 0;
-    width: 100%;
-    height: 300px;
-    color: white;
-    background-color: black;
+.Conversation {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  color: white;
+  font-size: 1.3em;
+  font-weight: bold;
+  min-height: 100vh;
 }
 
-
-.PrologAgent .Question{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
+.Container {
+  border: 3px solid orangered;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 30px;
 }
 
-.PrologAgent .Question h1{
-    margin-top: 20px;
+.Conversation_Body {
+  background-color: rgb(15, 15, 15);
+  height: 600px;
+  overflow-y: auto;
+  padding: 30px 50px;
 }
 
-.PrologAgent .Question p{
-    font-size: 1.5em;
+.Conversation_Body::-webkit-scrollbar {
+  width: 15px;
 }
 
-.Answers{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 300px;
-    background-color: orange;
+.Conversation_Body::-webkit-scrollbar-thumb {
+  background-color: rgb(53, 53, 53);
+  border-radius: 50px;
+}
+
+.Conversation_Body::-webkit-scrollbar-track {
+  background-color: rgb(133, 133, 133);
+  border-radius: 50px;
+}
+
+.Question {
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 20px;
+  background-color: rgb(226, 60, 0);
+  border-radius: 25px;
+}
+.Answer {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  margin-left: auto;
+  padding: 20px;
+  background-color: rgb(179, 59, 16);
+  border-radius: 25px;
+}
+
+.AgainButton {
+  padding: 10px 20px;
+  background-color: orangered;
+  border: none;
+  border-radius: 50px;
+  font-size: 1em;
+  color: white;
+  margin: 50px;
+}
+
+.AgainButton:hover,
+.AgainButton:active
+{
+  cursor: pointer;
+  outline: none;
+  background-color: rgb(179, 59, 16);
+}
+
+.SoftwareTools{
+  border-top: 2px solid orangered;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SoftwareTools img{
+  margin: 5px 20px;
 }
