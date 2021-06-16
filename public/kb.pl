@@ -137,7 +137,7 @@ following the standard of JWT authoriaztion.
 We make HTTP Request to the server using Tau-Prolog's predicate ajax/4.
 */
 ask(Question) :-
-    atom_concat('http://localhost:8080/ask?q=', Question, URL),
+    atom_concat('https://pure-mountain-31553.herokuapp.com/ask?q=', Question, URL),
     prop(getToken, GetToken), apply(GetToken, [Question], Token),
     atom_concat('BEARER ', Token, AuthorizationToken),
     ajax(get, URL, RESULT, [headers([-(authorization, AuthorizationToken)])]),

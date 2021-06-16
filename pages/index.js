@@ -23,7 +23,7 @@ const HomePage = () => {
   //useEffect hook, with the following definition, is a React special function 'hook' that is executed once this component is created and rendered.
   useEffect(async () => {
     //On first time rendering the component, connect to the server, get a JWT and store it in the accessToken state variable.
-    axios.post('http://localhost:8080/auth', {
+    axios.post('https://pure-mountain-31553.herokuapp.com/auth', {
       connectionID: uuid()
     })
       .then(async (response) => {
