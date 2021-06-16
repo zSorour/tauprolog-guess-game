@@ -47,7 +47,8 @@ const HomePage = () => {
   global.getToken = function () {
     return accessToken;
   }
-  //A function that calls setQuestionsCount and setQA methods that update the state variables of the questions and answers, and the questions count
+  /*A function that calls setQuestionsCount and setQA methods that update the state variables of the questions and answers,
+  and the questions count*/
   global.setQuestionAnswer = function (question, answer) {
     //Since we write text-data in prolog with underscores instead of spaces between the words,
     //we replace all the underscores with whitespace.
